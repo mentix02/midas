@@ -1,0 +1,6 @@
+Markdown==3.6
+lightfm==1.17
+Django==4.2.11
+Cython==3.0.10
+django-cors-headers==4.3.1
+djangorestframework==3.15.1
