@@ -2,16 +2,22 @@
 import { useRouter, RouterLink } from "vue-router";
 
 import { addToCart } from "@/api/cart";
+import useAuthStore from "@/stores/auth";
 import { toggleHeart } from "@/api/heart";
 import type { Product } from "@/api/types/product";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const props = withDefaults(defineProps<{ product: Product; height?: number }>(), {
   height: 400,
 });
 
 const handleToggleHeart = async () => {
+  if (!authStore.isAuthenticated) {
+    alert("Sign in to heart items.");
+    return;
+  }
   try {
     await toggleHeart(props.product.id);
   } catch (err: any) {
@@ -21,6 +27,10 @@ const handleToggleHeart = async () => {
 };
 
 const handleAddToCart = async () => {
+  if (!authStore.isAuthenticated) {
+    alert("Sign in to add items to cart.");
+    return;
+  }
   try {
     await addToCart(props.product.id);
   } catch (err: any) {
@@ -39,7 +49,7 @@ const handleAddToCart = async () => {
       <h5 class="card-title">{{ product.name }}</h5>
       <p class="card-text">{{ product.description }}</p>
       <p class="card-text">${{ product.price }}</p>
-      <div class="btn-group" role="group">
+      <div class="btn-group" role="group" v-if="authStore.isAuthenticated">
         <button @click="handleAddToCart" class="btn btn-primary">
           <i class="bi bi-cart-plus"></i>
         </button>
