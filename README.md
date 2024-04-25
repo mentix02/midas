@@ -46,7 +46,9 @@ python3 manage.py generate_orders -n <number_of_orders>
 ### Build the UI
 
 ```bash
-cd ui && npm run build
+cd ui
+npm install
+npm run build
 ```
 
 ### Run the server
