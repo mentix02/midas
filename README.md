@@ -43,6 +43,12 @@ python3 manage.py generate_hearts -n <number_of_hearts>
 python3 manage.py generate_orders -n <number_of_orders>
 ```
 
+### Build the UI
+
+```bash
+cd ui && npm run build
+```
+
 ### Run the server
 
 ```bash
