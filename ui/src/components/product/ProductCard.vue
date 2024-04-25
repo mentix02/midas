@@ -9,9 +9,13 @@ import type { Product } from "@/api/types/product";
 const router = useRouter();
 const authStore = useAuthStore();
 
-const props = withDefaults(defineProps<{ product: Product; height?: number }>(), {
-  height: 400,
-});
+interface ProductCardProps {
+  height?: number;
+  product: Product;
+  withDescription?: boolean;
+}
+
+const props = withDefaults(defineProps<ProductCardProps>(), { height: 400, withDescription: false });
 
 const handleToggleHeart = async () => {
   if (!authStore.isAuthenticated) {
@@ -47,7 +51,7 @@ const handleAddToCart = async () => {
     </RouterLink>
     <div class="card-body">
       <h5 class="card-title">{{ product.name }}</h5>
-      <p class="card-text">{{ product.description }}</p>
+      <p v-if="withDescription" class="card-text">{{ product.description }}</p>
       <p class="card-text">${{ product.price }}</p>
       <div class="btn-group" role="group" v-if="authStore.isAuthenticated">
         <button @click="handleAddToCart" class="btn btn-primary">

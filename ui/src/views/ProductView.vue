@@ -26,7 +26,7 @@ onMounted(async () => {
   <div v-if="product" class="container">
     <div class="row">
       <div class="col-12 col-lg-6">
-        <ProductCard :product="product" :height="600" />
+        <ProductCard with-description :product="product" :height="600" />
       </div>
       <div class="col-12 col-lg-6">
         <h2>Users Also Bought</h2>
