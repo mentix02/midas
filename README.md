@@ -49,6 +49,8 @@ python3 manage.py generate_orders -n <number_of_orders>
 python3 manage.py runserver
 ```
 
+Visit [http://localhost:8000/](http://localhost:8000/) in your browser.
+
 ## Frontend
 
 1. Navigate to the `ui` directory
