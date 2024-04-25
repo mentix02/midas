@@ -39,7 +39,7 @@ class Recommender:
         )
         self.model.fit(interactions_matrix, epochs=epochs)
 
-    def recommend(self, user_id: int, num_recommendations: int = 5) -> list[int]:
+    def recommend(self, user_id: int, num_recommendations: int = 6) -> list[int]:
 
         if not self.model or not self.dataset:
             self.build_dataset()
