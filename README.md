@@ -37,7 +37,12 @@ python3 manage.py load_prods data/products.json
 python3 manage.py load_users data/users.json
 ```
 
-- Generate some random interactions (hearts & orders) [OPTIONAL]
+- Generate some random interactions (hearts & orders) [OPTIONAL] - NOT RECOMMENDED
+
+This will generate a lot of dummy data - it is advised to play around with the webapp yourself via those
+three accounts mentioned above. Try adding things to cart and then checking out, and then see the recommendations
+change based on your interactions. Same with hearting products.
+
 ```bash
 python3 manage.py generate_hearts -n <number_of_hearts>
 python3 manage.py generate_orders -n <number_of_orders>
