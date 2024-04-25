@@ -7,8 +7,10 @@ import useAuthStore from "@/stores/auth";
 const router = useRouter();
 const authStore = useAuthStore();
 const navbarOpen = ref<boolean>(false);
+const heartsMenuOpen = ref<boolean>(false);
 
 const toggleNavbar = () => (navbarOpen.value = !navbarOpen.value);
+const toggleHeartsMenu = () => (heartsMenuOpen.value = !heartsMenuOpen.value);
 
 const handleLogout = async () => {
   authStore.logout();
@@ -45,6 +47,25 @@ const handleLogout = async () => {
             </li>
             <li class="nav-item">
               <RouterLink class="nav-link" :to="{ name: 'orders' }" active-class="active">Orders</RouterLink>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                href="#"
+                role="button"
+                @click.prevent="toggleHeartsMenu"
+                class="nav-link dropdown-toggle"
+                :class="{ show: heartsMenuOpen }"
+              >
+                Hearts
+              </a>
+              <div class="dropdown-menu" :class="{ show: heartsMenuOpen }">
+                <RouterLink @click="toggleHeartsMenu" class="dropdown-item" :to="{ name: 'hearts' }">
+                  My Hearts
+                </RouterLink>
+                <RouterLink @click="toggleHeartsMenu" class="dropdown-item" :to="{ name: 'recommendations' }">
+                  Recommendations
+                </RouterLink>
+              </div>
             </li>
             <li class="nav-item pointer" @click="handleLogout">
               <span class="nav-link">Logout</span>

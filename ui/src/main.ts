@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 
 import "bootswatch/dist/lux/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 import App from "./App.vue";
 import pinia from "./stores";

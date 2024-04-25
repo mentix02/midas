@@ -16,6 +16,7 @@ class Recommender:
 
     It's not performant? Too bad. It's not accurate? Too bad. It's not
     scalable? Too bad. It's not maintainable? Too bad. It's not readable?
+
     Don't lie. It *IS* readable.
     """
 
@@ -38,18 +39,19 @@ class Recommender:
         )
         self.model.fit(interactions_matrix, epochs=epochs)
 
-    def recommend(self, user_id: int, num_recommendations: int = 5) -> list[Product]:
+    def recommend(self, user_id: int, num_recommendations: int = 5) -> list[int]:
 
         if not self.model or not self.dataset:
             self.build_dataset()
             self.build_model()
 
+        already_liked_ids = Heart.objects.filter(user_id=user_id).values_list('product_id', flat=True)
         user_mapping, _, item_mapping, _ = self.dataset.mapping()
         user_internal_id = user_mapping[user_id]
 
         scores = self.model.predict(user_internal_id, list(item_mapping.values()))
-        top_item_indices = np.argsort(-scores)[:num_recommendations]
+        top_item_indices = np.argsort(-scores)
 
         top_items = [list(item_mapping.keys())[i] for i in top_item_indices]
 
-        return Product.objects.filter(id__in=top_items)
+        return [item for item in top_items if item not in already_liked_ids][:num_recommendations]

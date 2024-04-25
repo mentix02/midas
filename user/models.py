@@ -42,8 +42,8 @@ class User(AbstractUser):
         if not created:
             heart.delete()
             to_return = False
-
-        to_return = True
+        else:
+            to_return = True
 
         # Retrain the model here
         recommender = Recommender()

@@ -1,4 +1,4 @@
-from django.db.models import OuterRef, Case, When, Value, BooleanField
+from django.db.models import Exists, OuterRef
 
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
@@ -18,15 +18,17 @@ class ProductListAPIView(generics.ListAPIView):
         if not user.is_authenticated:
             return Product.objects.all()
 
-        return Product.objects.annotate(
-            **{
-                Product.IS_HEARTED_ANNOTATION: Case(
-                    When(hearts__user=user, then=Value(True)),
-                    default=Value(False),
-                    output_field=BooleanField(),
-                ),
-            }
-        ).prefetch_related('hearts')
+        return (
+            Product.objects.annotate(
+                **{
+                    Product.IS_HEARTED_ANNOTATION: Exists(
+                        Heart.objects.filter(product_id=OuterRef('pk'), user=user),
+                    ),
+                }
+            )
+            .prefetch_related('hearts')
+            .order_by('id')
+        )
 
 
 class ProductRetrieveAPIView(generics.RetrieveAPIView):

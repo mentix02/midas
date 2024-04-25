@@ -19,12 +19,12 @@ DEFAULT_APPS = [
 
 THIRD_PARTY_APPS = [
     'corsheaders',
-    'debug_toolbar',
     'rest_framework',
     'rest_framework.authtoken',
 ]
 
 LOCAL_APPS = [
+    'core.apps.CoreConfig',
     'user.apps.UserConfig',
     'cart.apps.CartConfig',
     'order.apps.OrderConfig',
@@ -37,7 +37,6 @@ INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,7 +50,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'ui/dist'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,7 +84,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = 'assets/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'ui/dist/assets',
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -100,9 +102,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
-
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
 
 CORS_ALLOW_ALL_ORIGINS = True

@@ -1,15 +1,29 @@
-from django.db.models.query import QuerySet
+from django.db.models import Value, QuerySet
 
 from rest_framework import status
 from rest_framework import generics
-from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from user.models import User
 from product.models import Product
+from recommender import Recommender
 from product.api.v1.serializers import ProductSerializer
 from heart.api.v1.serializers import HeartToggleSerializer
+
+
+class RecommendedProductsListAPIView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self) -> QuerySet:
+        recommender = Recommender()
+        user: User = self.request.user
+        recommended_product_ids = recommender.recommend(user.id)
+        # annotate with a False since the recommender only suggests
+        # products which aren't already liked by the user.
+        return Product.objects.filter(id__in=recommended_product_ids).annotate(
+            **{Product.IS_HEARTED_ANNOTATION: Value(False)}
+        )
 
 
 class ToggleHeartAPIView(generics.CreateAPIView):
@@ -36,4 +50,4 @@ class UserHeartedProductsListAPIView(generics.ListAPIView):
 
     def get_queryset(self) -> QuerySet:
         user: User = self.request.user
-        return Product.objects.filter(hearts__user=user)
+        return Product.objects.filter(hearts__user=user).annotate(**{Product.IS_HEARTED_ANNOTATION: Value(True)})
