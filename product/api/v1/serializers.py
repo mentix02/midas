@@ -14,7 +14,6 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_is_hearted(self, product: Product) -> Optional[bool]:
 
         if hasattr(product, Product.IS_HEARTED_ANNOTATION):
-            print(getattr(product, Product.IS_HEARTED_ANNOTATION))
             return getattr(product, Product.IS_HEARTED_ANNOTATION)
 
         if 'request' in self.context:
