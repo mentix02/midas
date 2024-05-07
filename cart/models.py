@@ -27,8 +27,8 @@ class CartItem(models.Model):
 
     def save(self, *args, **kwargs):
         # check if product is already in cart
-        if self.user.cart.filter(product=self.product).exists() and self._state.adding:
-            cart_item: CartItem = self.user.cart.get(product=self.product)
+        if self._state.adding and self.user.cart.filter(product=self.product).exists():
+            cart_item: CartItem = self.user.cart.get(product=self.product)  #  guaranteed to succeed
             cart_item.increment_quantity(self.quantity)
             return
 
