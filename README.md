@@ -2,6 +2,10 @@
 
 Midas is a simple online shop powered by a powerful recommendation engine.
 
+# Video Demo
+
+[![Midas Demo](https://img.youtube.com/vi/5AqPsgZwwPw/0.jpg)](https://www.youtube.com/watch?v=5AqPsgZwwPw)
+
 # Installation
 
 Midas is composed of two main components: the backend and the frontend. The backend is a Django application that serves the API and the frontend is a Vue application that consumes the API.
